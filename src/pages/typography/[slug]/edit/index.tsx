@@ -1,6 +1,7 @@
 import Grid from "@mui/material/Grid"
 import { useProducts } from "hooks/useProduct"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import DatePickerWrapper from "src/@core/styles/libs/react-datepicker"
 import FormLayoutsSeparator from "src/views/form-layouts/FormLayoutsSeparator"
 
@@ -10,8 +11,13 @@ const Page = () => {
 
   // ** Data
   const { getProductBySlug } = useProducts()
-  const { data: product } = getProductBySlug(String(router.query.slug))
+  const { data: product, mutate } = getProductBySlug(String(router.query.slug))
   console.log("🚀 ~ file: index.tsx:14 ~ Page ~ product:", product)
+
+  // ** useEffects
+  useEffect(() => {
+    mutate()
+  }, [mutate])
 
   return (
     <DatePickerWrapper>
