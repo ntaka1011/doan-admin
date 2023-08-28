@@ -71,47 +71,47 @@ const FormLayoutsSeparator: FC<FormLayoutMaProps> = ({ text, action, product }) 
   const router = useRouter()
   const [name, setName] = useState('Add Product')
   const [size6, setSize6] = useState({
-    size: "",
+    size: 6,
     quantity: 0
   })
   const [size6_5, setSize6_5] = useState({
-    size: "",
+    size: 6.5,
     quantity: 0
   })
   const [size7, setSize7] = useState({
-    size: "",
+    size: 7,
     quantity: 0
   })
   const [size7_5, setSize7_5] = useState({
-    size: "",
+    size: 7.5,
     quantity: 0
   })
   const [size8, setSize8] = useState({
-    size: "",
+    size: 8,
     quantity: 0
   })
   const [size8_5, setSize8_5] = useState({
-    size: "",
+    size: 8.5,
     quantity: 0
   })
   const [size9, setSize9] = useState({
-    size: "",
+    size: 9,
     quantity: 0
   })
   const [size9_5, setSize9_5] = useState({
-    size: "",
+    size: 9.5,
     quantity: 0
   })
   const [size10, setSize10] = useState({
-    size: "",
+    size: 10,
     quantity: 0
   })
   const [size10_5, setSize10_5] = useState({
-    size: "",
+    size: 10.5,
     quantity: 0
   })
   const [size11, setSize11] = useState({
-    size: "",
+    size: 11,
     quantity: 0
   })
 
@@ -164,69 +164,69 @@ const FormLayoutsSeparator: FC<FormLayoutMaProps> = ({ text, action, product }) 
     product?.size?.map((item: any) => {
       console.log("🚀 ~ file: FormLayoutsSeparator.tsx:133 ~ product?.size.map ~ item:", item)
       switch (item.size) {
-        case '6':
+        case 6:
           setSize6({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '6.5':
+        case 6.5:
           setSize6_5({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '7':
+        case 7:
           setSize7({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '7.5':
+        case 7.5:
           setSize7_5({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '8':
+        case 8:
           setSize8({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '8.5':
+        case 8.5:
           setSize8_5({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '9':
+        case 9:
           setSize9({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '9.5':
+        case 9.5:
           setSize9_5({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '10':
+        case 10:
           setSize10({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '10.5':
+        case 10.5:
           setSize10_5({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
-        case '11':
+        case 11:
           setSize11({
-            size: item._id,
+            size: item.size,
             quantity: item.quantity
           })
           break
@@ -326,17 +326,37 @@ const FormLayoutsSeparator: FC<FormLayoutMaProps> = ({ text, action, product }) 
         const params = {
           ...data,
           images: list,
-          size: [size6.size, size6_5.size, size7.size, size7_5.size],
+          size: [size6, size6_5, size7, size7_5, size8, size8_5, size9, size9_5, size10, size10_5, size11],
           feature: feature
         }
         console.log("🚀 ~ file: FormLayoutsSeparator.tsx:327 ~ handleRegister ~ params:", params)
 
         const res = await editProduct(String(router.query.slug), params)
         if (res?.status === 200) {
-          console.log("ress", res)
+          toast.success("You have update successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+          router.push('/typography')
+        } else {
+          toast.error("Update Product error. Please try again!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
-
-
       }
     } catch (error) {
       console.log(error)
