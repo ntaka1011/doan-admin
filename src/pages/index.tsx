@@ -9,6 +9,7 @@ import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
 
 // ** Custom Components Imports
 import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
+import withAuth from 'hooks/withAuth'
 
 // ** Styled Component Import
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
@@ -16,13 +17,38 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // ** Demo Components Imports
 import Table from 'src/views/dashboard/Table'
 import Trophy from 'src/views/dashboard/Trophy'
-import TotalEarning from 'src/views/dashboard/TotalEarning'
 import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
-import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
-import SalesByCountries from 'src/views/dashboard/SalesByCountries'
+import { useOrder } from 'hooks/useOrder'
+import { useEffect, useState } from 'react'
+import { convertPrice } from 'utils/convertPrice'
 
 const Dashboard = () => {
+
+  // ** states
+  const [percent, setPercent] = useState(0)
+
+  // ** Hooks
+  const { getOrderIncome, getOrderQuantityMonth } = useOrder()
+  const { data, mutate } = getOrderIncome()
+  const { data: quantity, mutate: muateQuantity } = getOrderQuantityMonth()
+  console.log("🚀 ~ file: index.tsx:35 ~ Dashboard ~ data:", data)
+
+  useEffect(() => {
+    mutate()
+    muateQuantity()
+  }, [muateQuantity, mutate])
+
+  useEffect(() => {
+    if (data) {
+      setPercent(data[1].total * 100 / data[0].total - 100)
+    }
+  }, [data])
+
+  function floor(value: number) {
+    return `${Math.floor(value)}%`
+  }
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
@@ -35,17 +61,15 @@ const Dashboard = () => {
         <Grid item xs={12} md={6} lg={4}>
           <WeeklyOverview />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <TotalEarning />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={8}>
           <Grid container spacing={6}>
             <Grid item xs={6}>
               <CardStatisticsVerticalComponent
-                stats='$25.6k'
+                stats={convertPrice(data?.[1]?.total)}
                 icon={<Poll />}
                 color='success'
-                trendNumber='+42%'
+                trend={`${percent > 0 ? 'positive' : 'negative'}`}
+                trendNumber={`${percent > 0 ? `+${floor(percent)}` : floor(percent)}`}
                 title='Total Profit'
                 subtitle='Weekly Profit'
               />
@@ -73,22 +97,16 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={6}>
               <CardStatisticsVerticalComponent
-                stats='15'
+                stats={quantity?.data?.[1]?.total || 0}
                 color='warning'
-                trend='negative'
-                trendNumber='-18%'
+                trend={`${quantity?.data[1].total / quantity?.data[0].total > 0 ? 'positive' : 'negative'}`}
+                trendNumber={`${quantity?.data[1].total / quantity?.data[0].total}`}
                 subtitle='Last Week'
                 title='Sales Queries'
                 icon={<HelpCircleOutline />}
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <SalesByCountries />
-        </Grid>
-        <Grid item xs={12} md={12} lg={8}>
-          <DepositWithdraw />
         </Grid>
         <Grid item xs={12}>
           <Table />
@@ -98,4 +116,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default withAuth(Dashboard)

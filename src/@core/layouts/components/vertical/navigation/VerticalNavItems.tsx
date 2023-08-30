@@ -33,7 +33,6 @@ const VerticalNavItems = (props: Props) => {
 
     return <TagName {...props} key={index} item={item} />
   })
-  console.log("🚀 ~ file: VerticalNavItems.tsx:36 ~ RenderMenuItems ~ RenderMenuItems:", RenderMenuItems)
 
   return <>{RenderMenuItems}</>
 }
