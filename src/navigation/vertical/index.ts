@@ -2,7 +2,6 @@
 import Login from 'mdi-material-ui/Login'
 import CubeOutline from 'mdi-material-ui/CubeOutline'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import CartOutline from 'mdi-material-ui/CartOutline'
@@ -17,11 +16,6 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Dashboard',
       icon: HomeOutline,
       path: '/'
-    },
-    {
-      title: 'Account Settings',
-      icon: AccountCogOutline,
-      path: '/account-settings'
     },
     {
       sectionTitle: 'Pages'

@@ -1,5 +1,4 @@
-import { Delete, FindAll, FindOne, Update } from "../utils/useSWRConfig"
-
+import { Delete, FindAll, FindOne, Update } from '../utils/useSWRConfig'
 
 const endpoint = '/orders'
 export const useOrder = () => {
@@ -9,7 +8,7 @@ export const useOrder = () => {
     getOrderMonth: () => FindAll(`${endpoint}/totalmonth/`),
     getOrderQuantityMonth: () => FindAll(`${endpoint}/quantityorder/`),
     getOrderIncome: () => FindAll(`${endpoint}/income`),
-    updateOrder: (id: string | null, params = {}) => Update(`${endpoint} / ${id}`, params),
-    deleteOrder: (id: string | null) => Delete(`${endpoint} / ${id}`)
+    updateOrder: (id: string | null, params = {}) => Update(`${endpoint}/${id}`, params),
+    deleteOrder: (id: string | null) => Delete(`${endpoint}/${id}`)
   }
 }

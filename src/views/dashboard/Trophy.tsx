@@ -30,6 +30,7 @@ const Trophy = () => {
 
   // ** Data
   const { data, mutate } = getOrderMonth()
+  console.log('🚀 ~ file: Trophy.tsx:33 ~ Trophy ~ data123123:', data)
 
   // ** useEffects
   useEffect(() => {
@@ -40,7 +41,7 @@ const Trophy = () => {
 
   return (
     <Card sx={{ position: 'relative' }}>
-      <CardContent sx={{ height: "186px" }}>
+      <CardContent sx={{ height: '186px' }}>
         <Typography variant='h6'>Congratulations Hung! 🥳</Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
           Best seller of the month

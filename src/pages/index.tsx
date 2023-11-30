@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid'
 
 // ** Icons Imports
 import Poll from 'mdi-material-ui/Poll'
-import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
 
@@ -24,15 +23,15 @@ import { useEffect, useState } from 'react'
 import { convertPrice } from 'utils/convertPrice'
 
 const Dashboard = () => {
-
   // ** states
   const [percent, setPercent] = useState(0)
 
   // ** Hooks
   const { getOrderIncome, getOrderQuantityMonth } = useOrder()
   const { data, mutate } = getOrderIncome()
+  console.log('🚀 ~ file: index.tsx:32 ~ Dashboard ~ data:', data)
   const { data: quantity, mutate: muateQuantity } = getOrderQuantityMonth()
-  console.log("🚀 ~ file: index.tsx:35 ~ Dashboard ~ data:", data)
+  console.log('🚀 ~ file: index.tsx:35 ~ Dashboard ~ data:', quantity)
 
   useEffect(() => {
     mutate()
@@ -41,7 +40,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (data) {
-      setPercent(data[1].total * 100 / data[0].total - 100)
+      setPercent((data?.[1]?.total * 100) / data[0]?.total - 100)
     }
   }, [data])
 
@@ -76,17 +75,6 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={6}>
               <CardStatisticsVerticalComponent
-                stats='$78'
-                title='Refunds'
-                trend='negative'
-                color='secondary'
-                trendNumber='-15%'
-                subtitle='Past Month'
-                icon={<CurrencyUsd />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
                 stats='862'
                 trend='negative'
                 trendNumber='-18%'
@@ -99,8 +87,8 @@ const Dashboard = () => {
               <CardStatisticsVerticalComponent
                 stats={quantity?.data?.[1]?.total || 0}
                 color='warning'
-                trend={`${quantity?.data[1].total / quantity?.data[0].total > 0 ? 'positive' : 'negative'}`}
-                trendNumber={`${quantity?.data[1].total / quantity?.data[0].total}`}
+                trend={`${quantity?.data[1]?.total / quantity?.data[0]?.total > 0 ? 'positive' : 'negative'}`}
+                trendNumber={`${quantity?.data[1]?.total / quantity?.data[0]?.total}`}
                 subtitle='Last Week'
                 title='Sales Queries'
                 icon={<HelpCircleOutline />}
